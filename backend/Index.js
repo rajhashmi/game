@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const setupWebSocket = require('./WebSocket'); // Import the WebSocket setup function
-
+const setupWebSocket = require('./WebSocket');  
+const PORT = process.env.PORT || 3000;
 const app = express();
 const server = http.createServer(app);
 const corsOptions = {
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 // Initialize WebSocket
-setupWebSocket(server);
+setupWebSocket(server);  
 
 server.listen(3000, () => {
     console.log('Server is running on http://localhost:3000');
