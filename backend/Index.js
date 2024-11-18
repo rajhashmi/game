@@ -14,7 +14,7 @@ const corsOptions = {
 // Middleware
 app.use(cors(corsOptions));
 
-app.get('/', (req, res) => {
+app.get('/hello', (req, res) => {
     res.send('<h1>Hello</h1>');
 });
 
