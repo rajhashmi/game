@@ -4,7 +4,7 @@ import './App.css'
 import Model from './Components/Model'
 import { useEffect } from 'react'
 
-const socket = io('https://dummy-server-pied.vercel.app/')
+const socket = io('https://dummy-server-pied.vercel.app')
 
 function App() {
 
