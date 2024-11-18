@@ -2,10 +2,16 @@ import { OrbitControls, Sky } from '@react-three/drei'
 import {io} from 'socket.io-client'
 import './App.css'
 import Model from './Components/Model'
+import { useEffect } from 'react'
 
 const socket = io('http://localhost:3000')
 
 function App() {
+
+  useEffect(()=>{
+    console.log("connected to server");
+    
+  },[socket])
 
   return (
     <>
