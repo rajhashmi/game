@@ -4,7 +4,7 @@ import './App.css'
 import Model from './Components/Model'
 import { useEffect } from 'react'
 
-const socket = io('http://localhost:3000')
+const socket = io('https://game-omega-beryl.vercel.app')
 
 function App() {
 
