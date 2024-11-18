@@ -5,9 +5,14 @@ const setupWebSocket = require('./WebSocket'); // Import the WebSocket setup fun
 
 const app = express();
 const server = http.createServer(app);
+const corsOptions = {
+    origin: 'https://multiplayer-game-frontend.vercel.app', 
+    methods: ['GET', 'POST'],
+    credentials: true,
+};
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
     res.send('<h1>Hello</h1>');

@@ -8,10 +8,19 @@ const socket = io('https://game-omega-beryl.vercel.app')
 
 function App() {
 
-  useEffect(()=>{
-    console.log("connected to server");
-    
-  },[socket])
+  useEffect(() => {
+    socket.on('connect', () => {
+        console.log('Connected to server:', socket.id);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+
+    return () => {
+        socket.disconnect();
+    };
+}, []);
 
   return (
     <>
