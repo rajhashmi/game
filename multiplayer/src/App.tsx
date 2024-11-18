@@ -1,4 +1,4 @@
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, Sky } from '@react-three/drei'
 import {io} from 'socket.io-client'
 import './App.css'
 import Model from './Components/Model'
@@ -11,7 +11,8 @@ function App() {
     <>
     <OrbitControls/>
     <Model/>
-    <ambientLight intensity={10} />
+    <Sky  sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} />
+    <ambientLight intensity={2} />
     <mesh>
       <boxGeometry/>
       <meshNormalMaterial/>
