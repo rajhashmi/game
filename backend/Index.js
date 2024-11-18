@@ -21,6 +21,6 @@ app.get('/', (req, res) => {
 // Initialize WebSocket
 setupWebSocket(server);  
 
-server.listen(3000, () => {
+server.listen(PORT, () => {
     console.log('Server is running on http://localhost:3000');
 });
