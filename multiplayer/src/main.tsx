@@ -2,7 +2,8 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import { Canvas } from '@react-three/fiber';
 import { Perf } from 'r3f-perf';
-import { KeyboardControls, } from '@react-three/drei';
+import { KeyboardControls, Loader } from '@react-three/drei';
+import { Suspense } from 'react';
  
 
  
@@ -17,7 +18,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       { name: 'jump', keys: ['Space'] },
     ]}
   >
-    <Canvas shadows camera={{ position: [20, 15, -5], fov: 50 }}>
+    <Canvas shadows camera={{ position: [-7, 9, 3], fov: 50 }}>
+      <Suspense fallback={null}>
     <directionalLight
      color={"#fbfbc4"}
      intensity={1.5}
@@ -35,6 +37,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     />
       <Perf />
       <App />
+      </Suspense>
     </Canvas>
+    <Loader/>
   </KeyboardControls>
 );
