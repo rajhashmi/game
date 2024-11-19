@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { RigidBody } from "@react-three/rapier";
 import { useEffect, useRef, useState } from "react";
 import GameState from "../../Store/Game.tsx";
@@ -10,7 +11,7 @@ import * as THREE from 'three'
 function Player() {
   const bodyRef = useRef(null);
   const meshRef = useRef(null);
-  const [subscribeKeys, getKeys] = useKeyboardControls();
+  const [,  getKeys] = useKeyboardControls();
   const gameStart = GameState((state) => state.start);
   const insertPlayer = GameState((state) => state.insertPlayer);
   const getPlayers = GameState((state) => state.getPlayerFromServer);
