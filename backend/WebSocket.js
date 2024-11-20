@@ -16,28 +16,29 @@ function setupWebSocket(server) {
         socket.on('getPlayer', ( data, callback) => {
             if(data){
                 const convertData = JSON.parse(data);
-                if(!players.has(socket.id)){
-                    players.set(socket.id, convertData);
-                    console.log(players);
+                console.log(convertData.color)
+                if(!players.has(convertData.color)){
+                    players.set(convertData.color, convertData.position);
                     
                 }
             }
-            const playerList = Array.from(players.values()); 
+            const playerList = Array.from(players.entries());
             
             callback(playerList); 
         });
-
-        // socket.on('setPlayer', (playerData, callback) => {
-        //     if (!players.has(socket.id)) {
-        //         players.set(socket.id, playerData);  
-        //         
-        //     } else {
-        //         
-        //     }
-        // });
+        socket.on('setPlayerLocation', (data, callback)=> {
+            if(data){
+                const convertData = JSON.parse(data);
+                const identity = `#${convertData.color}`;
+                if(players.has(identity)){
+                    players.set(identity,convertData.position)
+                }
+                const playersArray = Array.from(players.entries()); 
+                callback(playersArray);
+            }
+        })
 
         socket.on('disconnect', () => {
-            
             players.delete(socket.id);  
         });
     });

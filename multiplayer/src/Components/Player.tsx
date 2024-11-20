@@ -7,6 +7,7 @@ import { random_color } from "../utils/helper.tsx";
 import { useFrame } from "@react-three/fiber";
 import { useKeyboardControls } from "@react-three/drei";
 import * as THREE from 'three'
+import Oppnent from "./Oppnent.tsx";
 
 function Player() {
   const bodyRef = useRef(null);
@@ -15,6 +16,9 @@ function Player() {
   const gameStart = GameState((state) => state.start);
   const insertPlayer = GameState((state) => state.insertPlayer);
   const getPlayers = GameState((state) => state.getPlayerFromServer);
+  const setPlayer = GameState((state) => state.setPlayer);
+  const sendPlayerLocationtoServer = GameState((statle) => statle.sendNewPositionToServer)
+  // const getPlayerss = GameState((statle) => statle.showPlayer)
   const [smoothCameraPosition] = useState(()=> new THREE.Vector3(10, 10, 10));
   const [smoothCameraTarget] = useState(()=> new THREE.Vector3());
 
@@ -29,7 +33,6 @@ function Player() {
         meshRef.current.material.color.set(meshColor);
       }
       if (bodyRef.current) {
-        insertPlayer(bodyRef.current, socket);
         playerIdentity.color = meshColor;
         const position = bodyRef.current.translation();
         playerIdentity.position = {
@@ -37,8 +40,9 @@ function Player() {
           y: position.y.toFixed(2),
           z: position.z.toFixed(2),
         };
-        console.log(socket.id);
         
+        setPlayer(meshRef)
+        insertPlayer([meshColor, playerIdentity.position ], socket);
         getPlayers(socket, playerIdentity);
       }
     });
@@ -74,6 +78,26 @@ function Player() {
      * Camera
      * */ 
     const bodyPosition = bodyRef.current.translation();
+
+    /**
+     * Sending data to server
+     *
+     * */ 
+
+    const bodyNewPosition = {
+      color: meshRef.current.material.color.getHexString().toUpperCase(),
+      position: {
+        x:bodyPosition.x.toFixed(2),
+        y:bodyPosition.y.toFixed(2),
+        z:bodyPosition.z.toFixed(2),
+      }
+    }
+
+    
+
+    sendPlayerLocationtoServer(socket, bodyNewPosition)
+
+    // console.log(getPlayerss())
     const cameraNewPosition = new THREE.Vector3();
     cameraNewPosition.copy(bodyPosition);
     cameraNewPosition.z += 1.5
@@ -105,6 +129,7 @@ function Player() {
         <icosahedronGeometry args={[0.1, 1]}  />
         <meshStandardMaterial  />
       </mesh>
+      <Oppnent player={meshRef}/>
     </RigidBody>
   );
 }
