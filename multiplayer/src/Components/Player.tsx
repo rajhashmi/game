@@ -18,10 +18,13 @@ function Player() {
   const getPlayers = GameState((state) => state.getPlayerFromServer);
   const setPlayer = GameState((state) => state.setPlayer);
   const sendPlayerLocationtoServer = GameState((statle) => statle.sendNewPositionToServer)
+  const playerDisqualify = GameState((state) => state.playerDisqualify);
+  const isPlayerDisqualify = GameState((state) => state.isPlayerDisqualify);
   // const getPlayerss = GameState((statle) => statle.showPlayer)
   const [smoothCameraPosition] = useState(()=> new THREE.Vector3(10, 10, 10));
   const [smoothCameraTarget] = useState(()=> new THREE.Vector3());
-
+  const playerOppoenent = GameState((state) => state.isOpponentReady);
+  const [isOpponentReadyToLoad, setIsOpponentReadyToLoad] = useState(false);
   const socket = io("http://localhost:3000");
 
   useEffect(() => {
@@ -36,9 +39,9 @@ function Player() {
         playerIdentity.color = meshColor;
         const position = bodyRef.current.translation();
         playerIdentity.position = {
-          x: position.x.toFixed(2), 
-          y: position.y.toFixed(2),
-          z: position.z.toFixed(2),
+          x: position.x.toFixed(3), 
+          y: position.y.toFixed(3),
+          z: position.z.toFixed(3),
         };
         
         setPlayer(meshRef)
@@ -52,6 +55,12 @@ function Player() {
       socket.disconnect();
     };
   }, []);
+
+  useEffect(()=>{
+    if(playerOppoenent){
+      setIsOpponentReadyToLoad(true);
+    }
+  },[playerOppoenent])
 
   useFrame((state,delta)=>{
     const { forward, backward, leftward, rightward } = getKeys();
@@ -78,6 +87,13 @@ function Player() {
      * Camera
      * */ 
     const bodyPosition = bodyRef.current.translation();
+    
+    if(bodyPosition.z < 2 && !isPlayerDisqualify ){
+      console.log("remove Player");
+      const playerColor = `#${meshRef.current.material.color.getHexString().toUpperCase()}`
+      playerDisqualify(socket, playerColor);  
+      
+    }
 
     /**
      * Sending data to server
@@ -87,14 +103,13 @@ function Player() {
     const bodyNewPosition = {
       color: meshRef.current.material.color.getHexString().toUpperCase(),
       position: {
-        x:bodyPosition.x.toFixed(2),
-        y:bodyPosition.y.toFixed(2),
-        z:bodyPosition.z.toFixed(2),
+        x:bodyPosition.x.toFixed(3),
+        y:bodyPosition.y.toFixed(3),
+        z:bodyPosition.z.toFixed(3),
       }
     }
 
     
-
     sendPlayerLocationtoServer(socket, bodyNewPosition)
 
     // console.log(getPlayerss())
@@ -114,6 +129,7 @@ function Player() {
   })
 
   return (
+    <>
     <RigidBody
       ref={bodyRef}
       position={[-7, 9, 3]}
@@ -129,8 +145,11 @@ function Player() {
         <icosahedronGeometry args={[0.1, 1]}  />
         <meshStandardMaterial  />
       </mesh>
-      <Oppnent player={meshRef}/>
     </RigidBody>
+      {playerOppoenent &&
+      <Oppnent player={meshRef}/>
+      }
+    </>
   );
 }
 

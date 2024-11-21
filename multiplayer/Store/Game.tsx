@@ -9,13 +9,39 @@ export default create(
     phase: "ready",
     playerIdentity: null,
     playerInRoom: new Map(),
-
-
+    isOpponentReady: false,
+    isPlayerDisqualify: false,
     showPlayer : () => {
       return get().playerInRoom;
+    },
+    playerDisqualify: (socket, playerColor) => {
+      
+      if(socket && socket.connected){
+        
+        // if(get().playerInRoom.has(playerColor)){
+
+        // }
+
+        socket.emit('removePlayer', playerColor, (response)=>{
+          console.log("removed player from server");
+          set((state) => {
+           state.isPlayerDisqualify = true
+           if(state.playerInRoom.has(playerColor)){
+            console.log("deleting");
+            
+            state.playerInRoom.delete(playerColor)
+           }
+           
+            return {};
+          });
+          
+        })
+      }
     }
     ,
     start: () => {
+
+
       set((state) => {
         if (state.phase === "ready") {
           return { phase: "playing" };
@@ -52,19 +78,15 @@ export default create(
       if(webSocket && position.position.y && webSocket.connected){
         const dataConverted = JSON.stringify(position);
         webSocket.emit("setPlayerLocation", dataConverted, (response)=>{
-          // set((state) => {
-            // const updatedPlayers = [...state.playerInRoom, [...response]];
-            // return { playerInRoom: updatedPlayers };
-            // get().playerInRoom.forEach((el)=>{
-              // console.log(el);
-
-            //   if(Array.isArray(el)){
-            //     const identity = el[0];
-            //     const position = el[1]
-            //   }
-            // })
-              
-          // });
+          const playersStore = get().playerInRoom;
+          response.forEach((el)=>{
+           
+           if(playersStore.has(el[0])){
+            playersStore.set(el[0], el[1])
+           }else{
+            playersStore.set(el[0], el[1])
+           }
+        });
         })
 
       }
@@ -84,7 +106,7 @@ export default create(
               if(!state.playerInRoom.has(el[0])){
                 state.playerInRoom.set(el[0], el[1])
               }
-              
+              state.isOpponentReady = true;          
             })
             return {};
           });

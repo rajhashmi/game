@@ -54,7 +54,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         { name: 'jump', keys: ['Space'] },
       ]}
     >
-      <Canvas shadows camera={{ position: [-7, 9, 3], fov: 50 }}>
+      <Canvas shadows camera={{ position: [-10, 29, 15], fov: 50 }}>
         <Suspense fallback={null}>
           <directionalLight
             color={'#fbfbc4'}

@@ -11,12 +11,9 @@ function setupWebSocket(server) {
     });
 
     io.on('connection', (socket) => {
-        
-
         socket.on('getPlayer', ( data, callback) => {
             if(data){
                 const convertData = JSON.parse(data);
-                console.log(convertData.color)
                 if(!players.has(convertData.color)){
                     players.set(convertData.color, convertData.position);
                     
@@ -26,6 +23,16 @@ function setupWebSocket(server) {
             
             callback(playerList); 
         });
+
+        console.log(players);
+        socket.on('removePlayer', (data, callback)=>{
+            
+            if(players.has(data)){
+                players.delete(data);
+            }
+            
+        })
+
         socket.on('setPlayerLocation', (data, callback)=> {
             if(data){
                 const convertData = JSON.parse(data);
@@ -37,6 +44,8 @@ function setupWebSocket(server) {
                 callback(playersArray);
             }
         })
+
+        
 
         socket.on('disconnect', () => {
             players.delete(socket.id);  
