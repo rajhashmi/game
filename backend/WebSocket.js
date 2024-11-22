@@ -9,7 +9,6 @@ function setupWebSocket(server) {
             methods: ['GET', 'POST'],
         },
     });
-
     io.on('connection', (socket) => {
         socket.on('getPlayer', ( data, callback) => {
             if(data){
@@ -20,19 +19,16 @@ function setupWebSocket(server) {
                 }
             }
             const playerList = Array.from(players.entries());
-            
             callback(playerList); 
         });
-
-        console.log(players);
         socket.on('removePlayer', (data, callback)=>{
-            
             if(players.has(data)){
                 players.delete(data);
+                console.log("player has been removed")
             }
+            callback(true);
             
         })
-
         socket.on('setPlayerLocation', (data, callback)=> {
             if(data){
                 const convertData = JSON.parse(data);
@@ -44,9 +40,6 @@ function setupWebSocket(server) {
                 callback(playersArray);
             }
         })
-
-        
-
         socket.on('disconnect', () => {
             players.delete(socket.id);  
         });
@@ -54,5 +47,4 @@ function setupWebSocket(server) {
 
     return io;
 }
-
 module.exports = setupWebSocket;

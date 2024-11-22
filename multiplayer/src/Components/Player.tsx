@@ -12,15 +12,16 @@ import Oppnent from "./Oppnent.tsx";
 function Player() {
   const bodyRef = useRef(null);
   const meshRef = useRef(null);
+  const previousPosition = useRef({x: 0, y: 0, z: 0});
   const [,  getKeys] = useKeyboardControls();
   const gameStart = GameState((state) => state.start);
   const insertPlayer = GameState((state) => state.insertPlayer);
   const getPlayers = GameState((state) => state.getPlayerFromServer);
   const setPlayer = GameState((state) => state.setPlayer);
   const sendPlayerLocationtoServer = GameState((statle) => statle.sendNewPositionToServer)
+  const playerServerIdlePosition = GameState((state) => state.playerIdlePosition)
   const playerDisqualify = GameState((state) => state.playerDisqualify);
   const isPlayerDisqualify = GameState((state) => state.isPlayerDisqualify);
-  // const getPlayerss = GameState((statle) => statle.showPlayer)
   const [smoothCameraPosition] = useState(()=> new THREE.Vector3(10, 10, 10));
   const [smoothCameraTarget] = useState(()=> new THREE.Vector3());
   const playerOppoenent = GameState((state) => state.isOpponentReady);
@@ -35,7 +36,7 @@ function Player() {
       if (meshRef.current) {
         meshRef.current.material.color.set(meshColor);
       }
-      if (bodyRef.current) {
+      if (bodyRef.current) { 
         playerIdentity.color = meshColor;
         const position = bodyRef.current.translation();
         playerIdentity.position = {
@@ -80,15 +81,16 @@ function Player() {
     if (leftward) {
       impulse.x -= impulseStrength;
     }
+    
+    const bodyPosition = bodyRef.current.translation();  
+ 
+    
     bodyRef.current.applyImpulse(impulse);
-
-
     /**
      * Camera
      * */ 
-    const bodyPosition = bodyRef.current.translation();
     
-    if(bodyPosition.z < 2 && !isPlayerDisqualify ){
+    if(bodyPosition.y < 5 && !isPlayerDisqualify ){
       console.log("remove Player");
       const playerColor = `#${meshRef.current.material.color.getHexString().toUpperCase()}`
       playerDisqualify(socket, playerColor);  
@@ -112,7 +114,6 @@ function Player() {
     
     sendPlayerLocationtoServer(socket, bodyNewPosition)
 
-    // console.log(getPlayerss())
     const cameraNewPosition = new THREE.Vector3();
     cameraNewPosition.copy(bodyPosition);
     cameraNewPosition.z += 1.5

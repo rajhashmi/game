@@ -17,21 +17,15 @@ export default create(
     playerDisqualify: (socket, playerColor) => {
       
       if(socket && socket.connected){
-        
-        // if(get().playerInRoom.has(playerColor)){
-
-        // }
-
+        console.log("sending message to server to remove player from server")
         socket.emit('removePlayer', playerColor, (response)=>{
-          console.log("removed player from server");
+          get().isPlayerDisqualify = true
           set((state) => {
-           state.isPlayerDisqualify = true
-           if(state.playerInRoom.has(playerColor)){
-            console.log("deleting");
             
+           if(state.playerInRoom.has(playerColor)){
             state.playerInRoom.delete(playerColor)
+            console.log("player has been removed from client as well")
            }
-           
             return {};
           });
           
@@ -74,24 +68,29 @@ export default create(
     },
     
 
-    sendNewPositionToServer : (webSocket, position) => {
-      if(webSocket && position.position.y && webSocket.connected){
+    sendNewPositionToServer: (webSocket, position) => {
+      if (webSocket && position.position.y && webSocket.connected) {
         const dataConverted = JSON.stringify(position);
-        webSocket.emit("setPlayerLocation", dataConverted, (response)=>{
-          const playersStore = get().playerInRoom;
-          response.forEach((el)=>{
-           
-           if(playersStore.has(el[0])){
-            playersStore.set(el[0], el[1])
-           }else{
-            playersStore.set(el[0], el[1])
-           }
+        webSocket.emit("setPlayerLocation", dataConverted, (response) => {
+          set((state) => {
+            const updatedMap = new Map(state.playerInRoom); 
+    
+            updatedMap.forEach((value, key) => {
+              if (!response.some(([resKey]) => resKey === key)) {
+                updatedMap.delete(key); // Remove missing players
+              }
+            });
+    
+            response.forEach(([key, value]) => {
+              updatedMap.set(key, value);
+            });
+    
+            return { playerInRoom: updatedMap };  
+          });
         });
-        })
-
       }
-    }
-    ,
+    },
+    
     getPlayerFromServer: (webSocket, player) => {
       if (webSocket && webSocket.connected) {
         let dataConverted = null

@@ -27,7 +27,7 @@ function Opponent() {
   }, [gamePlayer, playerInRoom]);
 
   useFrame(() => {
-    console.log(playerInRoom.size)
+    
       if (gamePlayer && playerInRoom && playerInRoom.size > 1) {
         const playersArray = Array.from(playerInRoom.entries());
     const playerBall = gamePlayer.current.material.color.getHexString().toUpperCase();
