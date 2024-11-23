@@ -41,6 +41,8 @@ function Player() {
     };
   
     socket.on("connect", () => {
+      console.log("connection is complete");
+      
       gameStart();
       const playerIdentity = {};
       const meshColor = random_color();
