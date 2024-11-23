@@ -26,7 +26,9 @@ function Player() {
   const [smoothCameraTarget] = useState(()=> new THREE.Vector3());
   const playerOppoenent = GameState((state) => state.isOpponentReady);
   const [isOpponentReadyToLoad, setIsOpponentReadyToLoad] = useState(false);
-  const socket = io("https://game-backend-tau.vercel.app");
+  const socket = io("https://game-backend-tau.vercel.app",{
+    transports: ["websocket", "polling"],
+  });
 
   useEffect(() => {
     const handleUnload = (event) => {
