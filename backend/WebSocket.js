@@ -5,7 +5,7 @@ let players = new Map();
 function setupWebSocket(server) {
     const io = new Server(server, {
         cors: {
-            origin: 'https://multiplayer-game-frontend.vercel.app/',
+            origin: 'https://multiplayer-game-frontend.vercel.app',
             methods: ['GET', 'POST'],
         },
     });

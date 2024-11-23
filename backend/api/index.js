@@ -9,7 +9,7 @@ const server = http.createServer(app);
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.json({message:" this is server"});
+    res.json({message:" this is servers"});
 });
 
 setupWebSocket(server);
