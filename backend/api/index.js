@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
-const setupWebSocket = require('./WebSocket'); 
+const setupWebSocket = require('../WebSocket'); 
 
 const app = express();
 const server = http.createServer(app);
@@ -9,7 +9,7 @@ const server = http.createServer(app);
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.send('<h1>Hello</h1>');
+    res.json({message:" this is server"});
 });
 
 setupWebSocket(server);

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useState } from "react";
 import GameState from "../../Store/Game";
 import { useFrame } from "@react-three/fiber";
@@ -17,7 +18,6 @@ function Opponent() {
       return
     }
     const playerBall = gamePlayer.current?.material.color.getHexString().toUpperCase();
-    console.log("Player Ball Color:", playerBall);
 
     if (gamePlayer && playerInRoom && playerInRoom.size > 1) {
       const playersArray = Array.from(playerInRoom.entries());
@@ -31,7 +31,6 @@ function Opponent() {
   }, [gamePlayer, playerInRoom]);
 
   useFrame(() => {
-    console.log(isPlayerDisqualify);
     
     
       if (gamePlayer && playerInRoom && playerInRoom.size > 1 && !isPlayerDisqualify) {

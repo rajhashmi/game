@@ -30,7 +30,6 @@ function Player() {
 
   useEffect(() => {
     const handleUnload = (event) => {
-      console.log("User is leaving the site");
       if (meshRef.current) {
         const color = `#${meshRef.current.material.color.getHexString().toUpperCase()}`;
         socket.emit("userDisconnect", { color });
@@ -106,7 +105,6 @@ function Player() {
      * */ 
     
     if(bodyPosition.y < 5 && !isPlayerDisqualify ){
-      console.log("remove Player");
       const playerColor = `#${meshRef.current.material.color.getHexString().toUpperCase()}`
       playerDisqualify(socket, playerColor);  
       

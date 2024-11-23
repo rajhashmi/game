@@ -24,7 +24,6 @@ function setupWebSocket(server) {
         socket.on('removePlayer', (data, callback)=>{
             if(players.has(data)){
                 players.delete(data);
-                console.log("player has been removed")
             }
             callback(true);
             
@@ -52,7 +51,6 @@ function setupWebSocket(server) {
           });
           
           socket.on("disconnect", () => {
-            console.log("Client disconnected.");
           });
     });
 

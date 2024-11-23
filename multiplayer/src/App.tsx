@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { OrbitControls, Sky, Html } from "@react-three/drei";
 import "./App.css";
 import Model from "./Components/Model";
@@ -15,7 +16,6 @@ function App() {
   const gameRunning = useRef(true);
 
   const handleRestart = () => {
-    console.log("hello");
     setGameStart(true);
     gameRunning.current = true;
     Restart()
@@ -23,7 +23,6 @@ function App() {
 
   useFrame(({camera}) => {
     if (isPlayerDisqualify && gameRunning.current) {
-      console.log("delePlayer");
       gameRunning.current = false; 
       setGameStart(false);
     }
@@ -32,7 +31,7 @@ function App() {
 
   return (
     <>
-      <Physics debug>
+      <Physics>
         <OrbitControls/>
         <Model />
         {GameStart && <Player />}

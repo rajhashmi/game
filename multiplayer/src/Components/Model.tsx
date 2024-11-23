@@ -17,7 +17,7 @@ function Model() {
   return (
     <>
     <primitive object={scene}  />
-    <CuboidCollider args={[2.9,0.2,2.9, 1]} position={[-7,5,2.8]}/>
+    <CuboidCollider args={[2.9,0.2,2.9]} position={[-7,5,2.8]}/>
     </>
   )
 }

@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // @ts-nocheck
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 
@@ -20,14 +20,12 @@ export default create(
     playerDisqualify: (socket, playerColor) => {
       
       if(socket && socket.connected){
-        console.log("sending message to server to remove player from server")
         socket.emit('removePlayer', playerColor, (response)=>{
           get().isPlayerDisqualify = true
           set((state) => {
             
            if(state.playerInRoom.has(playerColor)){
             state.playerInRoom.delete(playerColor)
-            console.log("player has been removed from client as well")
            }
             return {};
           });
@@ -50,7 +48,6 @@ export default create(
     setPlayer: (player) => {
       set((state) => {
         state.playerIdentity = player;
-        console.log(state.playerIdentity);
         
         return {}
       })
