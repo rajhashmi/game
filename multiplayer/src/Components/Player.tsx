@@ -29,6 +29,16 @@ function Player() {
   const socket = io("http://localhost:3000");
 
   useEffect(() => {
+    const handleUnload = (event) => {
+      console.log("User is leaving the site");
+      if (meshRef.current) {
+        const color = `#${meshRef.current.material.color.getHexString().toUpperCase()}`;
+        socket.emit("userDisconnect", { color });
+      }
+      event.preventDefault();
+      event.returnValue = ""; // Custom message for some browsers
+    };
+  
     socket.on("connect", () => {
       gameStart();
       const playerIdentity = {};
@@ -48,12 +58,17 @@ function Player() {
         setPlayer(meshRef)
         insertPlayer([meshColor, playerIdentity.position ], socket);
         getPlayers(socket, playerIdentity);
+
+         
+      
+        window.addEventListener("beforeunload", handleUnload);
       }
     });
 
     return () => {
       socket.off("connect");
       socket.disconnect();
+      window.removeEventListener("beforeunload", handleUnload);
     };
   }, []);
 

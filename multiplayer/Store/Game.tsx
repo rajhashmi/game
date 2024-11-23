@@ -14,6 +14,9 @@ export default create(
     showPlayer : () => {
       return get().playerInRoom;
     },
+    reStart : () => {
+      return get().isPlayerDisqualify = false;
+    },
     playerDisqualify: (socket, playerColor) => {
       
       if(socket && socket.connected){

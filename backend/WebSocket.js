@@ -40,9 +40,20 @@ function setupWebSocket(server) {
                 callback(playersArray);
             }
         })
-        socket.on('disconnect', () => {
-            players.delete(socket.id);  
-        });
+        socket.on("userDisconnect", (data) => {
+            if (data && data.color) {
+                if(players.has(data.color)){
+                    players.delete(data.color)
+                    
+                }
+            }
+          
+            players.delete(socket.id);
+          });
+          
+          socket.on("disconnect", () => {
+            console.log("Client disconnected.");
+          });
     });
 
     return io;

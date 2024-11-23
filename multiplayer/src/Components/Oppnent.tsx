@@ -7,12 +7,16 @@ function Opponent() {
     
   const gamePlayer = GameState((state) => state.playerIdentity);
   const playerInRoom = GameState((state) => state.playerInRoom);
+  const isPlayerDisqualify = GameState((state) => state.isPlayerDisqualify);
   const [loadEnemies, setLoadEnemies] = useState(false);
   const [enemies, setEnemies] = useState([]);
   const [frameCounter, setFrameCounter] = useState(0);  
 
   useEffect(() => {
-    const playerBall = gamePlayer.current.material.color.getHexString().toUpperCase();
+    if(!isPlayerDisqualify){
+      return
+    }
+    const playerBall = gamePlayer.current?.material.color.getHexString().toUpperCase();
     console.log("Player Ball Color:", playerBall);
 
     if (gamePlayer && playerInRoom && playerInRoom.size > 1) {
@@ -27,8 +31,10 @@ function Opponent() {
   }, [gamePlayer, playerInRoom]);
 
   useFrame(() => {
+    console.log(isPlayerDisqualify);
     
-      if (gamePlayer && playerInRoom && playerInRoom.size > 1) {
+    
+      if (gamePlayer && playerInRoom && playerInRoom.size > 1 && !isPlayerDisqualify) {
         const playersArray = Array.from(playerInRoom.entries());
     const playerBall = gamePlayer.current.material.color.getHexString().toUpperCase();
 

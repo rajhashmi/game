@@ -10,6 +10,7 @@ import { useFrame } from "@react-three/fiber";
 function App() {
   const [GameStart, setGameStart] = useState(true);
   const isPlayerDisqualify = GameState((state) => state.isPlayerDisqualify);
+  const Restart = GameState((state) => state.reStart);
 
   const gameRunning = useRef(true);
 
@@ -17,6 +18,7 @@ function App() {
     console.log("hello");
     setGameStart(true);
     gameRunning.current = true;
+    Restart()
   };
 
   useFrame(({camera}) => {
