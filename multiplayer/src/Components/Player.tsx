@@ -26,7 +26,7 @@ function Player() {
   const [smoothCameraTarget] = useState(()=> new THREE.Vector3());
   const playerOppoenent = GameState((state) => state.isOpponentReady);
   const [isOpponentReadyToLoad, setIsOpponentReadyToLoad] = useState(false);
-  const socket = io("http://localhost:3000");
+  const socket = io("https://game-backend-tau.vercel.app/");
 
   useEffect(() => {
     const handleUnload = (event) => {
@@ -35,7 +35,7 @@ function Player() {
         socket.emit("userDisconnect", { color });
       }
       event.preventDefault();
-      event.returnValue = ""; // Custom message for some browsers
+      event.returnValue = "";  
     };
   
     socket.on("connect", () => {
