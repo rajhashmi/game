@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import { Canvas } from '@react-three/fiber';
-import { Perf } from 'r3f-perf';
 import { KeyboardControls, Loader } from '@react-three/drei';
 import { Suspense, useRef, useState } from 'react';
 
@@ -70,7 +69,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             shadow-camera-top={4}
             shadow-camera-bottom={-4}
           />
-          <Perf />
           <App />
         </Suspense>
       </Canvas>
