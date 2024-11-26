@@ -104,9 +104,7 @@ function Player() {
  
     
     bodyRef.current.applyImpulse(impulse);
-    /**
-     * Camera
-     * */ 
+   
     
     if(bodyPosition.y < 5 && !isPlayerDisqualify ){
       const playerColor = `#${meshRef.current.material.color.getHexString().toUpperCase()}`
@@ -114,10 +112,7 @@ function Player() {
       
     }
 
-    /**
-     * Sending data to server
-     *
-     * */ 
+   
 
     const bodyNewPosition = {
       color: meshRef.current.material.color.getHexString().toUpperCase(),
