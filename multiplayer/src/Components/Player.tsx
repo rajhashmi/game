@@ -26,7 +26,10 @@ function Player() {
   const [smoothCameraTarget] = useState(()=> new THREE.Vector3());
   const playerOppoenent = GameState((state) => state.isOpponentReady);
   const [isOpponentReadyToLoad, setIsOpponentReadyToLoad] = useState(false);
-  const socket = io("https://game-backend-lfy9.onrender.com/",{
+  // const socket = io("https://game-backend-lfy9.onrender.com/",{
+  //   transports: ["websocket", "polling"],
+  // });
+  const socket = io("http://localhost:3000",{
     transports: ["websocket", "polling"],
   });
 

@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls, Loader } from '@react-three/drei';
+import { Perf } from "r3f-perf";
 import { Suspense, useRef, useState } from 'react';
 
 function AudioController() {
@@ -71,6 +72,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           />
           <App />
         </Suspense>
+        <Perf/>
       </Canvas>
       <Loader />
     </KeyboardControls>

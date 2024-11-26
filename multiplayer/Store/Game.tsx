@@ -77,7 +77,7 @@ export default create(
     
             updatedMap.forEach((value, key) => {
               if (!response.some(([resKey]) => resKey === key)) {
-                updatedMap.delete(key); // Remove missing players
+                updatedMap.delete(key); 
               }
             });
     
