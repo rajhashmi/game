@@ -7,6 +7,7 @@ import Player from "./Components/Player";
 import GameState from "../Store/Game";
 import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import Home from "./Components/Home";
 
 function App() {
   const [GameStart, setGameStart] = useState(true);
@@ -22,6 +23,7 @@ function App() {
   };
 
   useFrame(({camera}) => {
+    
     if (isPlayerDisqualify && gameRunning.current) {
       gameRunning.current = false; 
       setGameStart(false);
@@ -32,19 +34,20 @@ function App() {
   return (
     <>
       <Physics>
-        <OrbitControls/>
+        {/* <OrbitControls/> */}
         <Model />
-        {GameStart && <Player />}
-        {!GameStart && (
+        <Home/>
+        {/* {GameStart && <Player />} */}
+        {/* {!GameStart && (
           <Html center style={{ ...htmlStyle }}>
             <div style={overlayStyle}>
               <button onClick={handleRestart} style={buttonStyle}>Restart</button>
             </div>
           </Html>
-        )}
+        )} */}
       </Physics>
-      <Sky sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} />
-      <ambientLight intensity={1} />
+      {/* <Sky sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
+      <ambientLight intensity={0.5} />
     </>
   );
 }
