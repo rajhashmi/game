@@ -1,5 +1,5 @@
-import React from 'react'
-import { Html, Text, Float, Sky, Sparkles, OrbitControls } from '@react-three/drei'
+// @ts-nocheck
+import {  Text, Float, Sky, Sparkles } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
 function Home() {

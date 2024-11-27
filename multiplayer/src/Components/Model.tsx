@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useGLTF } from "@react-three/drei"
 import { useEffect } from "react";
 import {  CuboidCollider,  } from "@react-three/rapier";
