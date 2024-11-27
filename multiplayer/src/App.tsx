@@ -7,6 +7,7 @@ import Player from "./Components/Player";
 import GameState from "../Store/Game";
 import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
+import Home from "./Components/Home";
 
 function App() {
   const [GameStart, setGameStart] = useState(true);
@@ -22,6 +23,7 @@ function App() {
   };
 
   useFrame(({camera}) => {
+    
     if (isPlayerDisqualify && gameRunning.current) {
       gameRunning.current = false; 
       setGameStart(false);
@@ -32,19 +34,34 @@ function App() {
   return (
     <>
       <Physics>
-        <OrbitControls/>
+        {/* <OrbitControls/> */}
         <Model />
-        {GameStart && <Player />}
-        {!GameStart && (
+        <Home/>
+        {/* <directionalLight
+            color={'#fbfbc4'}
+            intensity={1.5}
+            position={[-12, 9, 5]}
+            castShadow
+            shadow-mapSize-width={512}
+            shadow-mapSize-height={512}
+            shadow-camera-near={0.1}
+            shadow-camera-far={10}
+            shadow-camera-left={-3.5}
+            shadow-camera-right={3}
+            shadow-camera-top={4}
+            shadow-camera-bottom={-4}
+          /> */}
+        {/* {GameStart && <Player />} */}
+        {/* {!GameStart && (
           <Html center style={{ ...htmlStyle }}>
             <div style={overlayStyle}>
               <button onClick={handleRestart} style={buttonStyle}>Restart</button>
             </div>
           </Html>
-        )}
+        )} */}
       </Physics>
-      <Sky sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} />
-      <ambientLight intensity={1} />
+      {/* <Sky sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} /> */}
+      <ambientLight intensity={0.5} />
     </>
   );
 }

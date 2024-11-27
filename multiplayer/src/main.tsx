@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls, Loader } from '@react-three/drei';
+import { Perf } from "r3f-perf";
 import { Suspense, useRef, useState } from 'react';
 
 function AudioController() {
@@ -53,24 +54,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         { name: 'jump', keys: ['Space'] },
       ]}
     >
-      <Canvas shadows camera={{ position: [-10, 29, 15], fov: 50 }}>
+      <Canvas shadows camera={{ position: [-2.30, 4.70, -6.6], fov: 50,  rotation: [ -2.96,  -0.035, -3.13]}} >
         <Suspense fallback={null}>
-          <directionalLight
-            color={'#fbfbc4'}
-            intensity={1.5}
-            position={[-12, 9, 5]}
-            castShadow
-            shadow-mapSize-width={512}
-            shadow-mapSize-height={512}
-            shadow-camera-near={0.1}
-            shadow-camera-far={10}
-            shadow-camera-left={-3.5}
-            shadow-camera-right={3}
-            shadow-camera-top={4}
-            shadow-camera-bottom={-4}
-          />
+          
+          {/* <Home/> */}
           <App />
         </Suspense>
+        <Perf/>
       </Canvas>
       <Loader />
     </KeyboardControls>
